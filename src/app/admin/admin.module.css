@@ -1,0 +1,193 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Oben starten */
+  align-items: center;
+  min-height: 100vh;
+  padding: 4rem 2rem;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.container > p {
+  font-size: 1.1rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+/* --- Form Styles --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #0c0c0c;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.field input,
+.field textarea {
+  font-family: var(--font-geist-mono);
+  padding: 0.75rem;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #111;
+  color: #eee;
+  font-size: 1rem;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form button {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #eee;
+  color: #111;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form button:hover {
+  background-color: #ccc;
+}
+
+/* --- Info Box (für Search) --- */
+.info {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+}
+
+.info p {
+  margin-bottom: 0.5rem;
+  color: #aaa;
+}
+
+.info p:last-child {
+  margin-bottom: 0;
+}
+
+.info code {
+  background-color: #333;
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #eee;
+  font-size: 0.9rem;
+}
+
+/* --- Results (für Search) --- */
+.results {
+  margin-top: 2rem;
+}
+
+.results h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.results table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.results th,
+.results td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.results th {
+  background-color: #1a1a1a;
+}
+
+.results .leak {
+  color: #ff4d4d;
+  font-weight: 700;
+  background-color: #330000;
+}
+
+.error {
+  color: #ff4d4d;
+  background-color: #330000;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ff4d4d;
+}
+
+/* --- Admin Data (für Admin) --- */
+.data {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #ff4d4d;
+  background-color: #330000;
+  border-radius: 8px;
+}
+.data h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.data ul {
+  list-style-position: inside;
+}
+
+/* --- Comment List (für Comments) --- */
+.commentList {
+  margin-top: 3rem;
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+}
+
+.commentList h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.comment {
+  padding: 1rem;
+  border: 1px solid #222;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #0c0c0c;
+}
+
+.comment strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #bbb;
+}
+
+.comment p {
+  /* Hier wird der XSS-Inhalt angezeigt */
+  line-height: 1.6;
+}
