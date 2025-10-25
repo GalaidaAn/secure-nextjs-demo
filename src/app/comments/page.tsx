@@ -61,7 +61,7 @@ export default function CommentsPage() {
         <h1>Gästebuch</h1>
         <p>Hinterlasse einen Kommentar. (Demo für A3: XSS)</p>
         <p>
-          Versuche: <code>&lt;img src=x onerror=alert('XSS!')&gt;</code>
+          Versuche: <code>&lt;img src=x onerror=alert(&apos;XSS!&apos;)&gt;</code>
         </p>
 
         <form action={addComment} className={styles.form}>

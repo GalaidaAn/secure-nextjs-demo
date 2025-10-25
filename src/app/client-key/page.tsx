@@ -39,7 +39,7 @@ export default function ClientKeyPage() {
             <strong>So findest du den Key:</strong>
             <ol>
               <li>Öffne die Browser Entwickler-Tools (F12).</li>
-              <li>Gehe zum Tab "Sources" (oder "Quellen").</li>
+              <li>Gehe zum Tab &quot;Sources&quot; (oder &quot;Quellen&quot;).</li>
               <li>
                 Suche nach dieser Seite (z.B. unter <code>_next/static/chunks/app</code>)
               </li>

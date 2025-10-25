@@ -55,7 +55,7 @@ async function getDb() {
       "Bob",
       "Das ist ein toller Blog!"
     );
-  } catch (e) {
+  } catch (_e) {
     // Ignoriere Fehler, falls User schon existieren (UNIQUE constraint)
   }
 

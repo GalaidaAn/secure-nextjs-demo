@@ -32,9 +32,14 @@ export default async function SearchPage({
       `;
       console.log("Executing unsafe SQL:", sql);
       users = await db.all(sql);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      error = e.message;
+      // Typprüfung für 'e'
+      if (e instanceof Error) {
+        error = e.message;
+      } else {
+        error = "Ein unbekannter Fehler ist aufgetreten.";
+      }
     }
   }
 
@@ -64,12 +69,12 @@ export default async function SearchPage({
           </p>
           <p>
             Versuche dann den SQLi-Angriff:{" "}
-            <code>a' OR 1=1 --</code>
+            <code>a&apos; OR 1=1 --</code>
           </p>
           <p>
             Oder um Daten zu stehlen:{" "}
             <code>
-              a' UNION SELECT id, username, password FROM users --
+              a&apos; UNION SELECT id, username, password FROM users --
             </code>
           </p>
         </div>

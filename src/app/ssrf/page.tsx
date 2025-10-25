@@ -35,12 +35,16 @@ export default async function SsrfPage({
         status: response.status,
         data: data ? data + "..." : "[Leere Antwort]",
       };
-    } catch (e: any) {
-      console.error("SSRF Error:", e.message);
+    } catch (e: unknown) {
+      let errorMessage = "Unbekannter Fehler";
+      if (e instanceof Error) {
+        errorMessage = e.message;
+      }
+      console.error("SSRF Error:", errorMessage);
       result = {
         url: url,
         status: "FEHLER",
-        data: e.message,
+        data: errorMessage,
       };
     }
   }
