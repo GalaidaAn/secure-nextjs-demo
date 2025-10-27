@@ -1,57 +1,48 @@
-// WICHTIG: Server Actions für die Formularverarbeitung
-import { redirect } from "next/navigation";
-import { db as dbPromise } from "@/lib/db";
-import styles from "./login.module.css"; 
+"use client";
 
-// Die Login-Seite mit unsicherer Authentifizierung
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import styles from "./login.module.css";
 
 export default function LoginPage() {
-  // Server Action für das Login
-  async function loginAction(formData: FormData) {
-    "use server"; // Markiert dies als Server Action
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
-    const db = await dbPromise;
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    
+    const formData = new FormData(event.currentTarget);
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
 
-    if (!username || !password) {
-      return; // Einfache (schlechte) Validierung
-    }
+    // Rufe die NextAuth-Anmeldung auf
+    const result = await signIn("credentials", {
+      redirect: false, // Wir leiten manuell weiter
+      username: username,
+      password: password,
+    });
 
-    // A7: UNSICHERE AUTHENTIFIZIERUNG
-    // 1. Passwort wird im Klartext geprüft (sollte gehasht sein)
-    // 2. Anfällig für SQL-Injection (wird in /search demonstriert, hier aber auch)
-    // const user = await db.get(
-    //   `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`
-    // );
-
-    // Besser, aber immer noch Klartext-Passwort-Vergleich:
-    const user = await db.get(
-      "SELECT * FROM users WHERE username = ?",
-      username
-    );
-
-    // A7: Kryptografischer Fehler (Passwort im Klartext)
-    if (user && user.password === password) {
-      // Unsicher!
-      // Hier würdest du ein Cookie setzen (z.B. mit 'next-auth' oder 'jose')
-      // Wir simulieren es durch Weiterleitung
-      console.log(`User ${user.username} logged in (UNSAFE)`);
-
-      // A1: Fehlerhafte Zugriffskontrolle (Demo)
-      // Wir leiten zum Admin-Panel weiter, auch wenn die Rolle 'user' ist
-      // (Obwohl wir das hier nicht explizit prüfen)
-      redirect("/admin");
+    if (result?.ok) {
+      // Erfolgreich! Leite zur Homepage oder zum Dashboard
+      router.push("/");
+      router.refresh(); // Stellt sicher, dass der Server-Status (Session) neu geladen wird
     } else {
-      console.log("Login failed");
-      // Hier wäre eine Fehlermeldung
+      // Zeige einen Fehler an
+      setError("Login fehlgeschlagen. Ungültiger Benutzername oder Passwort.");
+      console.error("Login failed:", result?.error);
     }
   }
 
   return (
     <main className={styles.main}>
-      <form action={loginAction} className={styles.form}>
+      {/* ACHTUNG: 'action' entfernen! 
+        Wir nutzen 'onSubmit' auf dem Formular.
+      */}
+      <form onSubmit={handleSubmit} className={styles.form}>
         <h1>Login</h1>
+        {error && <p className={styles.error}>{error}</p>}
         <div className={styles.field}>
           <label htmlFor="username">Username</label>
           <input type="text" id="username" name="username" required />

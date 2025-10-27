@@ -1,6 +1,6 @@
-import { db as dbPromise } from "@/lib/db";
+import { getGameDb } from "@/lib/db-games";
 import { revalidatePath } from "next/cache";
-import styles from "./comments.module.css";
+import styles from "./xss.module.css";
 
 // Typ-Definition für unsere Kommentare
 type Comment = {
@@ -12,7 +12,7 @@ type Comment = {
 // 1. Server Action zum Hinzufügen von Kommentaren
 async function addComment(formData: FormData) {
   "use server";
-  const db = await dbPromise;
+  const db = await getGameDb();
 
   const author = (formData.get("author") as string) || "Anonym";
   const content = formData.get("content") as string;
@@ -32,7 +32,7 @@ async function addComment(formData: FormData) {
 
 // 2. Komponente zum Anzeigen der Kommentare
 async function CommentList() {
-  const db = await dbPromise;
+  const db = await getGameDb();
   const comments: Comment[] = await db.all("SELECT * FROM comments");
 
   return (

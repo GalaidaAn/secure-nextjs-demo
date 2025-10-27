@@ -1,7 +1,6 @@
 "use client";
 
-import styles from "./client-key.module.css"; // CSS gleich erstellen
-
+import styles from "./client-key.module.css"; // CSS-Datei gleich erstellen
 
 export default function ClientKeyPage() {
   // A2: KRYPTOGRAFISCHER FEHLER / SENSITIVE DATA EXPOSURE
@@ -16,14 +15,12 @@ export default function ClientKeyPage() {
         VERY_SECRET_API_KEY.substring(0, 10) + // Zeige nur einen Teil
         "..."
     );
-    // In einer echten App würde hier ein fetch() zu Stripe/PayPal etc.
-    // mit diesem Key stattfinden.
   }
 
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <h1>Bezahlseite</h1>
+        <h1>🔑 Challenge: Exposed API Key</h1>
         <p>
           Demo für A2: Sensible Daten (API-Key) im Client-Code.
         </p>
@@ -45,6 +42,9 @@ export default function ClientKeyPage() {
               </li>
               <li>Durchsuche den Code nach <code>VERY_SECRET_API_KEY</code>.</li>
             </ol>
+            <p className={styles.goal}>
+              <strong>Ziel:</strong> Finde den kompletten API-Key! (Für dieses Spiel gibt es keine Flag-Abgabe, es ist eine Demo).
+            </p>
           </div>
         </div>
       </div>
