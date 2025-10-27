@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getSecureDb } from "@/lib/db-secure"; // Unsere sichere DB
-import { compare } from "bcrypt"; // WICHTIG: Zum Hashing-Vergleich
+import { getSecureDb } from "@/lib/db-secure"; 
+import { compare } from "bcrypt"; 
+import { Session, User } from "next-auth"; 
+import { JWT } from "next-auth/jwt";
 
 export const authOptions = {
   // Session-Strategie: JWT (Standard und gut für Server Actions)
@@ -60,9 +62,11 @@ export const authOptions = {
 
   // Callbacks, um die User-Daten in den JWT-Token zu bekommen
   callbacks: {
-    async jwt({ token, user }: { token: any, user: any }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       // Beim ersten Login (user-Objekt ist vorhanden)
       if (user) {
+        // Stelle sicher, dass diese Felder in deiner /src/types/next-auth.d.ts
+        // auch für den 'User'-Typ definiert sind!
         token.id = user.id;
         token.role = user.role;
         token.xp = user.xp;
@@ -70,9 +74,9 @@ export const authOptions = {
       }
       return token;
     },
-    async session({ session, token }: { session: any, token: any }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       // Mache die Daten aus dem Token in der Session (Client) verfügbar
-      if (session.user) {
+      if (session.user && token) {
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.xp = token.xp;
