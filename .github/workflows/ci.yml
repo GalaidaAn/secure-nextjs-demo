@@ -32,8 +32,8 @@ jobs:
         run: |
           bun pm ls > deps.txt
           echo "Dependencies listed, running npm audit as fallback"
-          npm install --package-lock-only
-          npm audit --audit-level=moderate || echo "Audit completed with warnings"
+          npm install --package-lock-only --legacy-peer-deps
+          npm audit --audit-level=moderate --legacy-peer-deps || echo "Audit completed with warnings"
 
       - name: Dependency Vulnerability Check (OWASP style)
         uses: dependency-check/Dependency-Check_Action@main
